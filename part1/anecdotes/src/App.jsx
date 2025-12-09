@@ -25,11 +25,13 @@ function App() {
 
   const [selected, setSelected] = useState(random)
   const [votes, setVotes] = useState(initialVotes)
+  const [popular, setPopular] = useState(0)
 
   const handleVoteClick = () => {
     const copy = { ...votes }
     copy[selected] += 1
     setVotes(copy)
+    setPopular(copy[selected] > copy[popular] ? selected : popular)
   }
 
   const handleNextAnecdoteClick = () => {
@@ -38,9 +40,13 @@ function App() {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <Anecdote text={anecdotes[selected]} votes={votes[selected]}/>
       <Button text="vote" onClick={handleVoteClick}/>
       <Button text="next anecdote" onClick={handleNextAnecdoteClick}/>
+
+      <h1>Anecdote with most votes</h1>
+      <Anecdote text={anecdotes[popular]} votes={votes[popular]}/>
     </div>
   )
 }
