@@ -12,14 +12,51 @@ function App() {
     'The only way to go fast, is to go well.'
   ]
 
-  const random = Math.floor(Math.random() * anecdotes.length);
+  const initialVotes = {};
+  anecdotes.forEach((a, i) => {
+    initialVotes[i] = 0;
+  });
+
+  const getRandom = () => {
+    return Math.floor(Math.random() * anecdotes.length);
+  }
+
+  const random = getRandom();
 
   const [selected, setSelected] = useState(random)
+  const [votes, setVotes] = useState(initialVotes)
+
+  const handleVoteClick = () => {
+    const copy = { ...votes }
+    copy[selected] += 1
+    setVotes(copy)
+  }
+
+  const handleNextAnecdoteClick = () => {
+    setSelected(selected < anecdotes.length - 1 ? selected + 1 : 0)
+  }
 
   return (
     <div>
-      {anecdotes[selected]}
+      <Anecdote text={anecdotes[selected]} votes={votes[selected]}/>
+      <Button text="vote" onClick={handleVoteClick}/>
+      <Button text="next anecdote" onClick={handleNextAnecdoteClick}/>
     </div>
+  )
+}
+
+const Anecdote = ({text, votes}) => {
+  return (
+    <div>
+      <div>{text}</div>
+      <div>has {votes} votes</div>
+    </div>
+  )
+}
+
+const Button = ({text, onClick}) => {
+  return (
+    <button onClick={onClick}>{text}</button>
   )
 }
 
