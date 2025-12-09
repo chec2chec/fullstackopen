@@ -31,26 +31,41 @@ function App() {
   )
 }
 
-const Statistics = (props) => {
-  if (props.good == 0 && props.neutral == 0 && props.bad == 0) {
+const Statistics = ({good, neutral, bad}) => {
+  if (good === 0 && neutral === 0 && bad === 0) {
     return (
       <div>No feedback given</div>
     )
   }
   return (
-      <div>
-        <StatisticLine text="good" value={props.good} />
-        <StatisticLine text="neutral" value={props.neutral} />
-        <StatisticLine text="bad" value={props.bad} />
-        average {((props.good * 1) + (props.neutral * 0) + (props.bad * -1)) / (props.good + props.neutral + props.bad)}<br/>
-        positive {(props.good / (props.good + props.neutral + props.bad)) * 100} %
-      </div>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={good + neutral + bad} />
+          <StatisticLine text="average" value={(good + (bad * -1)) / (good + neutral + bad)} />
+          <StatisticLine text="positive" value={(good / (good + neutral + bad)) * 100} />
+        </tbody>
+      </table>
   )
 }
 
 const StatisticLine = ({text, value}) => {
+  if (text === "positive") {
+    return (
+      <tr>
+        <td>{text}</td>
+        <td>{value} %</td>
+      </tr>
+    )
+  }
+
   return (
-    <div>{text} {value}</div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
 }
 
