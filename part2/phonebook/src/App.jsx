@@ -3,14 +3,19 @@ import Person from './components/Person'
 
 function App() {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { 
+      name: 'Arto Hellas',
+      phone: '040-1234567',
+    }
   ])
   const [newName, setNewName] = useState('')
+  const [newPhone, setNewPhone] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
       name: newName,
+      phone: newPhone,
     }
 
     const hasPerson = persons.filter((person) => person.name === personObject.name)
@@ -20,10 +25,15 @@ function App() {
       setPersons(persons.concat(personObject))
     }
     setNewName('')
+    setNewPhone('')
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handlePhoneChange = (event) => {
+    setNewPhone(event.target.value)
   }
 
   return (
@@ -35,6 +45,12 @@ function App() {
             value={newName}
             onChange={handleNameChange}
           />
+        <div>
+          number: <input
+            value={newPhone}
+            onChange={handlePhoneChange}
+          />
+        </div>
         </div>
         <div>
           <button type="submit">add</button>
@@ -43,7 +59,7 @@ function App() {
       <h2>Numbers</h2>
       <ul>
         {persons.map((person, index) => (
-          <Person key={person.name + index} name={person.name} />
+          <Person key={person.name + index} person={person} />
         ))}
       </ul>
     </div>
